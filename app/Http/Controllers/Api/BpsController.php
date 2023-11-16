@@ -51,10 +51,4 @@ class BpsController extends Controller
         }
         return ResponseHelper::json(200, 'ok');
     }
-
-    public function singleDistrict(Request $request){
-        $data = BpsApiHelper::getDistrict($request->province_code, $request->regency_code);
-        // $data = District::where([['province_code', 33], ['regency_code', 10]])->get();
-        return ResponseHelper::json(200, 'ok', $data);
-    }
 }

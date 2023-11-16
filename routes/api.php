@@ -23,5 +23,4 @@ Route::controller(BpsController::class)->group(function () {
     Route::get('provinces', 'getProvinces')->name('provinces');
     Route::get('regencies', 'getRegencies')->name('regencies');
     Route::get('districts', 'getDistricts')->name('districts');
-    Route::get('single-district', 'singleDistrict')->name('single-district');
 });
