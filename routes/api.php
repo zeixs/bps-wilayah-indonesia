@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BpsController;
+use App\Http\Controllers\Api\IndonesiaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,11 @@ Route::controller(BpsController::class)->group(function () {
     Route::get('provinces', 'getProvinces')->name('provinces');
     Route::get('regencies', 'getRegencies')->name('regencies');
     Route::get('districts', 'getDistricts')->name('districts');
+});
+
+Route::controller(IndonesiaController::class)->prefix('indonesia')->as('indonesia.')->group(function(){
+    Route::get('search-province', 'searchProvince')->name('search-province');
+    Route::get('search-regency', 'searchRegency')->name('search-regency');
+    Route::get('search-district', 'searchDistrict')->name('search-district');
+    Route::get('search-global', 'searchGlobal')->name('search-global');
 });
