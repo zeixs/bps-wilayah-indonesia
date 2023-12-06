@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Helpers\BpsApiHelper;
 use App\Models\JobsErrorLogs;
+use App\Models\Province;
 use App\Models\Regency;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -27,12 +28,15 @@ class GetRegencies implements ShouldQueue
     public function handle(): void
     {
         try{
-            $fetchRegency = BpsApiHelper::getRegency($this->prov_code);
+            $prov_code = $this->prov_code;
+            $fetchRegency = BpsApiHelper::getRegency($prov_code);
+            $province = Province::where('code', $prov_code)->first();
             foreach ($fetchRegency as $code => $name) {
-                $regency = Regency::where([['code', $code], ['province_code', $this->prov_code]])->firstOrNew();
-                $regency->code = $code;
+                $regency = Regency::where([['code', $code], ['parent_code', $prov_code]])->firstOrNew();
+                $regency->parent_code = $prov_code;
+                $regency->code = $prov_code . $code;
                 $regency->name = $name;
-                $regency->province()->associate($this->prov_code);
+                $regency->province()->associate($province);
                 $regency->save();
             }
         } catch (Throwable $exception){
@@ -41,5 +45,6 @@ class GetRegencies implements ShouldQueue
                 'log' => $exception
             ]);
         }
+        sleep(1);
     }
 }

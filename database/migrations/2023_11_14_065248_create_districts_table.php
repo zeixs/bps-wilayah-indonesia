@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code')->index('district_code_index');
+            $table->foreignId('regency_id')->constrained('regencies')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('parent_code')->index('district_parent_code_index');
+            $table->string('code')->index('district_code_index');
             $table->string('name')->index('district_name_index');
-            $table->foreignId('province_code')->constrained('provinces', 'code')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('regency_code')->constrained('regencies', 'code')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

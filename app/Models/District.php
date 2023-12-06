@@ -12,6 +12,7 @@ class District extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_code',
         'code',
         'name'
     ];
@@ -25,10 +26,6 @@ class District extends Model
     
     public $timestamps = false;
     public function regency(){
-        return $this->belongsTo(Regency::class, 'regency_code', 'code');
-    }
-
-    public function province(){
-        return $this->belongsTo(Province::class, 'province_code', 'code');
+        return $this->belongsTo(Regency::class, 'regency_id', 'id');
     }
 }

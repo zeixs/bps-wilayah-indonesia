@@ -25,6 +25,6 @@ class Province extends Model
 
     public $timestamps = false;
     public function regencies(){
-        return $this->hasMany(Regency::class, 'province_code', 'code');
+        return $this->hasMany(Regency::class, 'parent_code', 'code');
     }
 }

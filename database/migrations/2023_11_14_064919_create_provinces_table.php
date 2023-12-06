@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code')->index('province_code_index');
+            $table->string('code')->index('province_code_index');
             $table->string('name')->index('province_name_index');
         });
     }

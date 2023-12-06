@@ -13,6 +13,7 @@ class Regency extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_code',
         'code',
         'name'
     ];
@@ -26,10 +27,10 @@ class Regency extends Model
     
     public $timestamps = false;
     public function province(){
-        return $this->belongsTo(Province::class, 'province_code', 'code');
+        return $this->belongsTo(Province::class, 'province_id', 'id');
     }
 
     public function districts(){
-        return $this->hasMany(District::class, 'regency_code', 'code');
+        return $this->hasMany(District::class, 'regency_id', 'id');
     }
 }

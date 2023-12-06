@@ -10,13 +10,13 @@ use App\Jobs\GetRegencies;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Regency;
-use Illuminate\Http\Request;
 
 class BpsController extends Controller
 {
-    public function getProvinces(){
+    public function getProvinces()
+    {
         $task = BpsApiHelper::ProvinceList();
-        foreach($task as $code => $name){
+        foreach ($task as $code => $name) {
             $province = Province::where('code', $code)->firstOrNew();
             $province->code = $code;
             $province->name = $name;
@@ -34,20 +34,23 @@ class BpsController extends Controller
         return ResponseHelper::json(200, 'ok', $data);
     }
 
-    public function getRegencies(){
+    public function getRegencies()
+    {
         $provinces = Province::get();
-        foreach($provinces as $province){
+        foreach ($provinces as $province) {
             GetRegencies::dispatch($province->code);
         }
         $fetched = Province::with('regencies')->get();
         return ResponseHelper::json(200, 'ok', $fetched);
     }
 
-    public function getDistricts(){
-        // GetDistricts::dispatch(33, 10);
+    public function getDistricts()
+    {
         $regencies = Regency::get();
-        foreach($regencies as $regency){
-            GetDistricts::dispatch($regency->province_code, $regency->code);
+        foreach ($regencies as $regency) {
+            $prov_code = str($regency->parent_code);
+            $reg_code = str_replace($prov_code, '', $regency->code);
+            GetDistricts::dispatch($prov_code, $reg_code);
         }
         return ResponseHelper::json(200, 'ok');
     }
